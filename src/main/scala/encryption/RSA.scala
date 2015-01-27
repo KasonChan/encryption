@@ -3,6 +3,8 @@ package encryption
 /**
  * Created by kasonchan on 1/24/15.
  */
+case class ED(e: Int, d: Int)
+
 case class key(x: Int, n: Int)
 
 class RSA {
@@ -30,23 +32,21 @@ class RSA {
   }
 
   /**
-   * Returns a random integer d such that 1 < d < phi, and ed = 1 (mod phi) *
+   * Returns a pair of e and d such that 1 < d < phi, and ed = 1 (mod phi) *
+   * and e != d *
    * @param e Integer
    * @param phi Integer
-   * @return d Integer
+   * @return ED(e: Int, d: Int)
    */
-  def pickD(e: Int, phi: Int): Int = {
-    val ds = for {
-      i <- 1 to 1000
-    } yield ((i * phi) + 1)
+  def pickED(e: Int, phi: Int): ED = {
+    val ds = for (i <- 1 to 1000) yield ((i * phi) + 1)
 
-    val rs = for {
-      i <- ds
-      if (i % e) == 0
-      if (i != e)
-    } yield i
+    val rs = for (i <- ds if ((i % e) == 0)) yield i
 
-    rs(0) / e
+    val fs = rs.map(i => i / e)
+
+    if (fs(0) == e) pickED(pickE(phi), phi)
+    else ED(e, fs(0))
   }
 
   /**
@@ -64,12 +64,11 @@ class RSA {
     println("phi: " + phi)
 
     val e = pickE(phi)
-    println("e: " + e)
 
-    val d = pickD(e, phi)
-    println("d: " + d)
+    val ed = pickED(e, phi)
+    println("e: " + ed.e + " " + "d: " + ed.d)
 
-    (key(e, n), key(d, n))
+    (key(ed.e, n), key(ed.d, n))
   }
 
   /**
@@ -88,22 +87,6 @@ class RSA {
   }
 
   /**
-   * Decrypts the message m with the key (d, n) and returns the decrypted
-   * message *
-   * @param d Integer
-   * @param n Integer
-   * @param m List[BigInt]
-   * @return decryptedMsg List[BigInt]
-   */
-  def decrypt(d: Int, n: Int, m: String): String = {
-    val msg = stringToBigInt(m)
-
-    val decryptedMsg = msg.map(m => (m.pow(d)) % n)
-
-    bigIntToString(decryptedMsg)
-  }
-
-  /**
    * Converts a string m to a list of BigInt *
    * @param m String
    * @return List[BigInt]
@@ -119,5 +102,21 @@ class RSA {
    */
   def bigIntToString(l: List[BigInt]): String = {
     (l.map(m => m.toChar)).mkString
+  }
+
+  /**
+   * Decrypts the message m with the key (d, n) and returns the decrypted
+   * message *
+   * @param d Integer
+   * @param n Integer
+   * @param m List[BigInt]
+   * @return decryptedMsg List[BigInt]
+   */
+  def decrypt(d: Int, n: Int, m: String): String = {
+    val msg = stringToBigInt(m)
+
+    val decryptedMsg = msg.map(m => (m.pow(d)) % n)
+
+    bigIntToString(decryptedMsg)
   }
 }
