@@ -7,7 +7,7 @@ case class ED(e: Int, d: Int)
 
 case class key(x: Int, n: Int)
 
-class RSA {
+trait RSA {
   /**
    * Returns the greatest common divisor of a and b *
    * @param a Integer
@@ -87,6 +87,22 @@ class RSA {
   }
 
   /**
+   * Decrypts the message m with the key (d, n) and returns the decrypted
+   * message *
+   * @param d Integer
+   * @param n Integer
+   * @param m List[BigInt]
+   * @return decryptedMsg List[BigInt]
+   */
+  def decrypt(d: Int, n: Int, m: String): String = {
+    val msg = stringToBigInt(m)
+
+    val decryptedMsg = msg.map(m => (m.pow(d)) % n)
+
+    bigIntToString(decryptedMsg)
+  }
+
+  /**
    * Converts a string m to a list of BigInt *
    * @param m String
    * @return List[BigInt]
@@ -102,21 +118,5 @@ class RSA {
    */
   def bigIntToString(l: List[BigInt]): String = {
     (l.map(m => m.toChar)).mkString
-  }
-
-  /**
-   * Decrypts the message m with the key (d, n) and returns the decrypted
-   * message *
-   * @param d Integer
-   * @param n Integer
-   * @param m List[BigInt]
-   * @return decryptedMsg List[BigInt]
-   */
-  def decrypt(d: Int, n: Int, m: String): String = {
-    val msg = stringToBigInt(m)
-
-    val decryptedMsg = msg.map(m => (m.pow(d)) % n)
-
-    bigIntToString(decryptedMsg)
   }
 }
