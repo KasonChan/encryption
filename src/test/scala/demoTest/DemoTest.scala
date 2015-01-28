@@ -30,6 +30,7 @@ class DemoTest extends FlatSpec with ShouldMatchers with RSA {
   }
 
   val keys = generateKeyPair()
+  val keys2 = generateKeyPair()
 
   "decryptedB" should "= \"3as\" after encryption and decryption" in {
     val b = token("3as")
@@ -43,5 +44,14 @@ class DemoTest extends FlatSpec with ShouldMatchers with RSA {
     val encryptedC = encrypt(keys._1.x, keys._1.n, c.x)
     val decryptedC = decrypt(keys._2.x, keys._2.n, encryptedC)
     decryptedC.toInt + 7 should be(12)
+  }
+
+  "decryptedD + 7" should "= 12 after encryption and decryption" in {
+    val d = token(5.toString)
+    val encryptedD1 = encrypt(keys._1.x, keys._1.n, d.x)
+    val encryptedD2 = encrypt(keys2._1.x, keys2._1.n, encryptedD1)
+    val decryptedD1 = decrypt(keys2._2.x, keys2._2.n, encryptedD2)
+    val decryptedD2 = decrypt(keys._2.x, keys._2.n, decryptedD1)
+    decryptedD2.toInt + 7 should be(12)
   }
 }
