@@ -29,29 +29,61 @@ class DemoTest extends FlatSpec with ShouldMatchers with RSA {
     gcd(173, 192) should be(1)
   }
 
-  val keys = RSA_GenerateKeyPair()
-  val keys2 = RSA_GenerateKeyPair()
+  val list1 = (65 to 90).toList
+  val list2 = list1.map(i => i.toDouble)
+  
+  val list3 = (97 to 122).toList
+  val list4 = list3.map(i => i.toDouble)
+  
+  "intToString(list1)" should "= list1" in {
+    intToString(list1) should be("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+  }
+  
+  "intToString(list2)" should "= list2" in {
+    doubleToString(list2) should be("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+  }
+  
+  "intToString(list3)" should "= list3" in {
+    intToString(list3) should be("abcdefghijklmnopqrstuvwxyz")
+  }
+  
+  "intToString(list4)" should "= list4" in {
+    doubleToString(list4) should be("abcdefghijklmnopqrstuvwxyz")
+  }
+
+  val RSA_Key = RSA_GenerateKeyPair()
+  val RSA_Key2 = RSA_GenerateKeyPair()
 
   "RSA decryptedB" should "= \"3as\" after encryption and decryption" in {
     val b = token("3as")
-    val encryptedB = RSA_Encrypt(keys._1.x, keys._1.n, b.x)
-    val decryptedB = RSA_Decrypt(keys._2.x, keys._2.n, encryptedB)
+    val encryptedB = RSA_Encrypt(RSA_Key._1.x, RSA_Key._1.n, b.x)
+    val decryptedB = RSA_Decrypt(RSA_Key._2.x, RSA_Key._2.n, encryptedB)
     decryptedB should be("3as")
   }
 
   "RSA decryptedC + 7" should "= 12 after encryption and decryption" in {
     val c = token(5.toString)
-    val encryptedC = RSA_Encrypt(keys._1.x, keys._1.n, c.x)
-    val decryptedC = RSA_Decrypt(keys._2.x, keys._2.n, encryptedC)
+    val encryptedC = RSA_Encrypt(RSA_Key._1.x, RSA_Key._1.n, c.x)
+    val decryptedC = RSA_Decrypt(RSA_Key._2.x, RSA_Key._2.n, encryptedC)
     decryptedC.toInt + 7 should be(12)
   }
 
   "RSA decryptedD + 7" should "= 12 after encryption and decryption" in {
     val d = token(5.toString)
-    val encryptedD1 = RSA_Encrypt(keys._1.x, keys._1.n, d.x)
-    val encryptedD2 = RSA_Encrypt(keys2._1.x, keys2._1.n, encryptedD1)
-    val decryptedD1 = RSA_Decrypt(keys2._2.x, keys2._2.n, encryptedD2)
-    val decryptedD2 = RSA_Decrypt(keys._2.x, keys._2.n, decryptedD1)
+    val encryptedD1 = RSA_Encrypt(RSA_Key._1.x, RSA_Key._1.n, d.x)
+    val encryptedD2 = RSA_Encrypt(RSA_Key2._1.x, RSA_Key2._1.n, encryptedD1)
+    val decryptedD1 = RSA_Decrypt(RSA_Key2._2.x, RSA_Key2._2.n, encryptedD2)
+    val decryptedD2 = RSA_Decrypt(RSA_Key._2.x, RSA_Key._2.n, decryptedD1)
     decryptedD2.toInt + 7 should be(12)
+  }
+
+  "RSA decryptedE " should 
+    "= ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 after encryption and decryption" in {
+    val d = token("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890")
+    val encryptedE1 = RSA_Encrypt(RSA_Key._1.x, RSA_Key._1.n, d.x)
+    val encryptedE2 = RSA_Encrypt(RSA_Key2._1.x, RSA_Key2._1.n, encryptedE1)
+    val decryptedE1 = RSA_Decrypt(RSA_Key2._2.x, RSA_Key2._2.n, encryptedE2)
+    val decryptedE2 = RSA_Decrypt(RSA_Key._2.x, RSA_Key._2.n, decryptedE1)
+    decryptedE2 should be("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890")
   }
 }

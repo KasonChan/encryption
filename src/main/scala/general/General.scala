@@ -22,7 +22,34 @@ trait General {
   }
 
   /**
-   * Convert a list of BigInt to String*
+   * Converts a string m to a list of Int * 
+   * @param m
+   * @return
+   */
+  def stringToInt(m: String): List[Int] = {
+    m.map(m => m.toInt).toList
+  }
+
+  /**
+   * Convert a list of Int to String * 
+   * @param l List[Int]
+   * @return String
+   */
+  def intToString(l: List[Int]): String = {
+    (l.map(m => m.toChar)).mkString
+  }
+
+  /**
+   * Convert a list of Double to String *
+   * @param l List[Double]
+   * @return String
+   */
+  def doubleToString(l: List[Double]): String = {
+    (l.map(m => m.toInt.toChar)).mkString
+  }
+
+  /**
+   * Convert a list of BigInt to String *
    * @param l List[BigInt]
    * @return String
    */
