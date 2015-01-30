@@ -13,6 +13,26 @@ trait General {
   def gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a % b)
 
   /**
+   * Returns a list of prime numbers *
+   * @param n Integer
+   */
+  def generatePrimes(n: Int) = {
+    val list = (1 to n).toList
+    
+    val list2 = list.filterNot(l => (l != 2) && (l % 2 == 0))
+
+    val list3 =  multiplesFilter(2, n, list2)
+    
+    list3
+  }
+
+  def multiplesFilter(x: Int, n: Int, list: List[Int]): List[Int] = {
+    if (x < Math.sqrt(n).ceil)
+      multiplesFilter(x + 1, n, list.filterNot(l => (l != list(x)) && (l % list(x) == 0)))
+    else list
+  }
+
+  /**
    * Converts a string m to a list of BigInt *
    * @param m String
    * @return List[BigInt]
@@ -23,8 +43,8 @@ trait General {
 
   /**
    * Converts a string m to a list of Int * 
-   * @param m
-   * @return
+   * @param m String
+   * @return List[Int]
    */
   def stringToInt(m: String): List[Int] = {
     m.map(m => m.toInt).toList

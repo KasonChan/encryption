@@ -28,6 +28,10 @@ class DemoTest extends FlatSpec with ShouldMatchers with RSA {
   "gcd(191, 192)" should "= 1" in {
     gcd(173, 192) should be(1)
   }
+  
+  "generatePrimes(175)" should "= List(1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173)" in {
+    generatePrimes(175) should be(List(1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173))
+  }
 
   val list1 = (65 to 90).toList
   val list2 = list1.map(i => i.toDouble)
