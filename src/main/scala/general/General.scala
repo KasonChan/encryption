@@ -12,20 +12,48 @@ trait General {
    */
   def gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a % b)
 
+
+  /**
+   * Returns d = gcd(a, b) and integers x, y satisfying ax + by = d *
+   * @param a Integer
+   * @param b Integer
+   * @return (d: Int, x: Int, y: Int)
+   */
+  def extendedGcd(a: Int, b: Int): (Int, Int, Int) = {
+    if (b == 0)
+      (a, 1, 0)
+
+    else {
+      val r: (Int, Int, Int) = extendedGcd(b, a % b)
+      val d = r._1;
+      val x = r._3;
+      val y = r._2 - (a / b) * r._3
+
+      (d, x, y)
+    }
+  }
+
   /**
    * Returns a list of prime numbers *
    * @param n Integer
    */
   def generatePrimes(n: Int) = {
     val list = (1 to n).toList
-    
+
     val list2 = list.filterNot(l => (l != 2) && (l % 2 == 0))
 
-    val list3 =  multiplesFilter(2, n, list2)
-    
-    list3
+    val primes = multiplesFilter(2, n, list2)
+
+    primes
   }
 
+  /**
+   * Returns a list of prime numbers*
+   * @param x filtered prime number: Integer
+   * @param n Integer
+   * @param list List[Integer]
+   * @return prime numbers: List[Integer]
+   */
   def multiplesFilter(x: Int, n: Int, list: List[Int]): List[Int] = {
     if (x < Math.sqrt(n).ceil)
       multiplesFilter(x + 1, n, list.filterNot(l => (l != list(x)) && (l % list(x) == 0)))
