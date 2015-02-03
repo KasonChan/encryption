@@ -14,20 +14,20 @@ trait RSA extends General {
    * Returns a pair of private and public keys using p = 13, q = 17 *
    * @return (key(e, n), key(d, n))
    */
-  def RSA_GenerateKeyPair() = {
-    val p = 13 // 7907
-    val q = 17 // 7919
+  def RSA_GenerateKeyPair(r: Int) = {
+    val primes = generatePrimes(r)
+
+    val p = primes.init.last
+
+    val q = primes.last
 
     val n = p * q
-    println("n: " + n)
 
     val phi = (p - 1) * (q - 1)
-    println("phi: " + phi)
 
     val e = RSA_PickE(phi)
 
     val ed = RSA_PickED(e, phi)
-    println("e: " + ed.e + " " + "d: " + ed.d)
 
     (key(ed.e, n), key(ed.d, n))
   }
@@ -73,7 +73,7 @@ trait RSA extends General {
 
     val g = scala.util.Random
 
-    val r = g.nextInt(es.length - 1)
+    val r = g.nextInt(es.length / 2)
 
     es(r + 1)
   }

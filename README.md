@@ -29,3 +29,4 @@ References
 
 *  http://cacr.uwaterloo.ca/hac/about/chap8.pdf
 *  http://en.wikipedia.org/wiki/RSA_%28cryptosystem%29
+*  http://stackoverflow.com/questions/5385024/mod-in-java-produces-negative-numbers

@@ -1,5 +1,7 @@
 package general
 
+case class DAB(d: Int, a: Int, b: Int)
+
 /**
  * Created by kasonchan on 1/28/15.
  */
@@ -12,24 +14,23 @@ trait General {
    */
   def gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a % b)
 
-
   /**
    * Returns d = gcd(a, b) and integers x, y satisfying ax + by = d *
    * @param a Integer
    * @param b Integer
    * @return (d: Int, x: Int, y: Int)
    */
-  def extendedGcd(a: Int, b: Int): (Int, Int, Int) = {
+  def extendedGcd(a: Int, b: Int): DAB = {
     if (b == 0)
-      (a, 1, 0)
+      DAB(a, 1, 0)
 
     else {
-      val r: (Int, Int, Int) = extendedGcd(b, a % b)
-      val d = r._1;
-      val x = r._3;
-      val y = r._2 - (a / b) * r._3
+      val r: DAB = extendedGcd(b, a % b)
+      val d = r.d;
+      val x = r.b;
+      val y = r.a - (a / b) * r.b
 
-      (d, x, y)
+      DAB(d, x, y)
     }
   }
 
@@ -103,5 +104,19 @@ trait General {
    */
   def bigIntToString(l: List[BigInt]): String = {
     (l.map(m => m.toChar)).mkString
+  }
+
+  /**
+   * Returns the result of n mod m *
+   * @param n Integer
+   * @param m Integer
+   * @return n mod m
+   */
+  def mod(n: Int, m: Int): Int = {
+    if (n < 0) {
+      (m - (Math.abs(n) % m)) % m
+    } else {
+      n % m
+    }
   }
 }

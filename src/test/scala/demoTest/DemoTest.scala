@@ -3,33 +3,34 @@ package demoTest
 case class token(x: String)
 
 import encryption.{RSA, Rabin, RabinPrivateKey, RabinPublicKey}
+import general.{DAB, General}
 import org.scalatest.{FlatSpec, ShouldMatchers}
 
 /**
  * Created by kasonchan on 1/25/15.
  */
-class DemoTest extends FlatSpec with ShouldMatchers with RSA with Rabin {
-  "gcd(1, 192)" should "= 1" in {
+class DemoTest extends FlatSpec with ShouldMatchers with General with RSA with Rabin {
+  "1. gcd(1, 192)" should "= 1" in {
     gcd(1, 192) should be(1)
   }
 
-  "gcd(49, 192)" should "= 1" in {
+  "2. gcd(49, 192)" should "= 1" in {
     gcd(49, 192) should be(1)
   }
 
-  "gcd(139, 192)" should "= 1" in {
+  "3. gcd(139, 192)" should "= 1" in {
     gcd(139, 192) should be(1)
   }
 
-  "gcd(173, 192)" should "= 1" in {
+  "4. gcd(173, 192)" should "= 1" in {
     gcd(173, 192) should be(1)
   }
 
-  "gcd(191, 192)" should "= 1" in {
+  "5. gcd(191, 192)" should "= 1" in {
     gcd(173, 192) should be(1)
   }
 
-  "generatePrimes(175)" should "= List(1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173)" in {
+  "6. generatePrimes(175)" should "= List(1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173)" in {
     generatePrimes(175) should be(List(1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173))
   }
 
@@ -39,40 +40,40 @@ class DemoTest extends FlatSpec with ShouldMatchers with RSA with Rabin {
   val list3 = (97 to 122).toList
   val list4 = list3.map(i => i.toDouble)
 
-  "intToString(list1)" should "= list1" in {
+  "7. intToString(list1)" should "= list1" in {
     intToString(list1) should be("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
   }
 
-  "intToString(list2)" should "= list2" in {
+  "8. intToString(list2)" should "= list2" in {
     doubleToString(list2) should be("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
   }
 
-  "intToString(list3)" should "= list3" in {
+  "9. intToString(list3)" should "= list3" in {
     intToString(list3) should be("abcdefghijklmnopqrstuvwxyz")
   }
 
-  "intToString(list4)" should "= list4" in {
+  "10. intToString(list4)" should "= list4" in {
     doubleToString(list4) should be("abcdefghijklmnopqrstuvwxyz")
   }
 
-  val RSA_Key = RSA_GenerateKeyPair()
-  val RSA_Key2 = RSA_GenerateKeyPair()
+  val RSA_Key = RSA_GenerateKeyPair(13)
+  val RSA_Key2 = RSA_GenerateKeyPair(160)
 
-  "RSA decryptedB" should "= \"3as\" after encryption and decryption" in {
+  "11. RSA decryptedB" should "= \"3as\" after encryption and decryption" in {
     val b = token("3as")
     val encryptedB = RSA_Encrypt(RSA_Key._1.x, RSA_Key._1.n, b.x)
     val decryptedB = RSA_Decrypt(RSA_Key._2.x, RSA_Key._2.n, encryptedB)
     decryptedB should be("3as")
   }
 
-  "RSA decryptedC + 7" should "= 12 after encryption and decryption" in {
+  "12. RSA decryptedC + 7" should "= 12 after encryption and decryption" in {
     val c = token(5.toString)
     val encryptedC = RSA_Encrypt(RSA_Key._1.x, RSA_Key._1.n, c.x)
     val decryptedC = RSA_Decrypt(RSA_Key._2.x, RSA_Key._2.n, encryptedC)
     decryptedC.toInt + 7 should be(12)
   }
 
-  "RSA decryptedD + 7" should "= 12 after encryption and decryption" in {
+  "13. RSA decryptedD + 7" should "= 12 after encryption and decryption" in {
     val d = token(5.toString)
     val encryptedD1 = RSA_Encrypt(RSA_Key._1.x, RSA_Key._1.n, d.x)
     val encryptedD2 = RSA_Encrypt(RSA_Key2._1.x, RSA_Key2._1.n, encryptedD1)
@@ -81,7 +82,7 @@ class DemoTest extends FlatSpec with ShouldMatchers with RSA with Rabin {
     decryptedD2.toInt + 7 should be(12)
   }
 
-  "RSA decryptedE " should
+  "14. RSA decryptedE " should
     "= ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 after encryption and decryption" in {
     val d = token("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890")
     val encryptedE1 = RSA_Encrypt(RSA_Key._1.x, RSA_Key._1.n, d.x)
@@ -91,34 +92,30 @@ class DemoTest extends FlatSpec with ShouldMatchers with RSA with Rabin {
     decryptedE2 should be("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890")
   }
 
-  "Rabin_GenerateKeyPair(5925)" should "= (publicKey(34963469), privateKey(5923, 5903))" in {
-    Rabin_GenerateKeyPair(5925) should be((RabinPublicKey(34963469), RabinPrivateKey(5923, 5903)))
+  "15. Rabin_GenerateKeyPair(12)" should "= (publicKey(77), privateKey(7, 11), DAB(1, -3, 2)" in {
+    Rabin_GenerateKeyPair(12) should
+      be((RabinPublicKey(77), RabinPrivateKey(7, 11), DAB(1, -3, 2)))
   }
 
-  "Rabin_GenerateKeyPair(7060)" should "= (publicKey(49702451), privateKey(7057, 7043))" in {
-    Rabin_GenerateKeyPair(7060) should be((RabinPublicKey(49702451), RabinPrivateKey(7057, 7043)))
+  "16. Rabin_GenerateKeyPair(5925)" should "= (publicKey(34963469), privateKey(5903, 5923), DAB(1, 2073, -2066)" in {
+    Rabin_GenerateKeyPair(5925) should
+      be((RabinPublicKey(34963469), RabinPrivateKey(5903, 5923), DAB(1, 2073, -2066)))
   }
 
-  "extendedGcd(4864, 3458)" should "= (38, 32, -45)" in {
-    extendedGcd(4864, 3458) should be((38, 32, -45))
+  "17. Rabin_GenerateKeyPair(7060)" should "= (publicKey(49702451), privateKey(7043, 7057), DAB(1, 504, -503))" in {
+    Rabin_GenerateKeyPair(7060) should
+      be((RabinPublicKey(49702451), RabinPrivateKey(7043, 7057), DAB(1, 504, -503)))
   }
 
-  "extendedGcd(65, 40)" should "= (5, -3, 5)" in {
-    extendedGcd(65, 40) should be((5, -3, 5))
+  "18. extendedGcd(4864, 3458)" should "= (38, 32, -45)" in {
+    extendedGcd(4864, 3458) should be(DAB(38, 32, -45))
   }
 
-  "extendedGcd(1239, 735)" should "= (21, -16, 27)" in {
-    extendedGcd(1239, 735) should be((21, -16, 27))
+  "19. extendedGcd(65, 40)" should "= (5, -3, 5)" in {
+    extendedGcd(65, 40) should be(DAB(5, -3, 5))
   }
 
-  val Rabin_Key = Rabin_GenerateKeyPair(20)
-
-  //  TODO: Test rabin encryption and decryption
-  //  "Rabin encryptA" should
-  //    "= ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 after encryption and decryption" in {
-  //    val m = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
-  //    val encryptedA = Rabin_Encrypt(Rabin_Key._1.n, m)
-  //    val decryptedA = Rabin_Decrypt(Rabin_Key._2, encryptedA)
-  //    decryptedA should be(m)
-  //  }
+  "20. extendedGcd(1239, 735)" should "= (21, -16, 27)" in {
+    extendedGcd(1239, 735) should be(DAB(21, -16, 27))
+  }
 }

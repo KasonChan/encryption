@@ -8,7 +8,7 @@ import encryption.RSA
 object Demo extends RSA {
 
   def main(args: Array[String]) {
-    val keys = RSA_GenerateKeyPair()
+    val keys = RSA_GenerateKeyPair(20)
 
     println(keys._1)
     println(keys._2)
