@@ -12,6 +12,11 @@ case class ElGamalEncryptedMsg(t: BigInt, o: BigInt)
  * Created by kasonchan on 2/3/15.
  */
 trait ElGamal extends General {
+  /**
+   * Returns public key and private key* 
+   * @param r Integer
+   * @return (public key, private key)
+   */
   def ElGamal_GenerateKeyPair(r: BigInt): (ElGamalPublicKey, ElGamalPrivateKey) = {
     val primes = generatePrimes(r.toInt)
 
@@ -26,6 +31,12 @@ trait ElGamal extends General {
     (ElGamalPublicKey(p, alpha, aa), ElGamalPrivateKey(a))
   }
 
+  /**
+   * Return the encrypted message (t, o)* 
+   * @param publicKey ElGamalPublicKey
+   * @param m String
+   * @return (t, o)
+   */
   def ElGamal_Encrypt(publicKey: ElGamalPublicKey, m: BigInt): ElGamalEncryptedMsg = {
     val p = publicKey.p
     val alpha = publicKey.alpha
@@ -37,7 +48,14 @@ trait ElGamal extends General {
     
     ElGamalEncryptedMsg(t, o)
   }
-  
+
+  /**
+   * Returns the decrypted message *
+   * @param publicKey ElGamalPublicKey
+   * @param privateKey ElGamalPrivateKey
+   * @param c Encrypted message
+   * @return Decrypted message: Int
+   */
   def ElGamal_Decrypt(publicKey: ElGamalPublicKey, privateKey: ElGamalPrivateKey, c: ElGamalEncryptedMsg): Int = {
     val p = publicKey.p
     val alpha = publicKey.alpha
