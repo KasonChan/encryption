@@ -1,7 +1,7 @@
 Encryption
 ==========
 
-This is a repo containing the following encryption algorithms. They are written 
+This is a repo contains the following encryption algorithms. They are written
 in Scala.
 
 *  RSA public-key encryption
