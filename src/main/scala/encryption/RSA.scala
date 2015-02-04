@@ -5,8 +5,6 @@ import general.General
 /**
  * Created by kasonchan on 1/24/15.
  */
-case class ED(e: Int, d: Int)
-
 case class key(x: Int, n: Int)
 
 trait RSA extends General {
@@ -27,9 +25,9 @@ trait RSA extends General {
 
     val e = RSA_PickE(phi)
 
-    val ed = RSA_PickED(e, phi)
+    val d = RSA_PickD(e, phi)
 
-    (key(ed.e, n), key(ed.d, n))
+    (key(e, n), key(d, n))
   }
 
   /**
@@ -68,14 +66,10 @@ trait RSA extends General {
    * @param phi Integer
    * @return e Integer
    */
-  private def RSA_PickE(phi: Int): Int = {
+  def RSA_PickE(phi: Int): Int = {
     val es = for (i <- 1 to phi if (gcd(i, phi) == 1)) yield i
 
-    val g = scala.util.Random
-
-    val r = g.nextInt(es.length / 2)
-
-    es(r + 1)
+    es.last
   }
 
   /**
@@ -85,14 +79,19 @@ trait RSA extends General {
    * @param phi Integer
    * @return ED(e: Int, d: Int)
    */
-  private def RSA_PickED(e: Int, phi: Int): ED = {
-    val ds = for (i <- 1 to 1000) yield ((i * phi) + 1)
+  def RSA_PickD(e: Int, phi: Int): Int = {
+    val ds = (1 to phi).toList
+    
+    val phis = for {
+      i <- 1 to phi
+    } yield i * phi + 1
+    
+    val rs = for {
+      phi <- phis
+      d <- ds
+      if ((e * d) == phi)
+    } yield d
 
-    val rs = for (i <- ds if ((i % e) == 0)) yield i
-
-    val fs = rs.map(i => i / e)
-
-    if (fs(0) == e) RSA_PickED(RSA_PickE(phi), phi)
-    else ED(e, fs(0))
+    rs.last
   }
 }
