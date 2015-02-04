@@ -2,6 +2,7 @@ package demoTest
 
 case class token(x: String)
 
+import encryption.ElGamal
 import encryption.{RSA, Rabin, RabinPrivateKey, RabinPublicKey}
 import general.{DAB, General}
 import org.scalatest.{FlatSpec, ShouldMatchers}
@@ -9,7 +10,7 @@ import org.scalatest.{FlatSpec, ShouldMatchers}
 /**
  * Created by kasonchan on 1/25/15.
  */
-class DemoTest extends FlatSpec with ShouldMatchers with General with RSA with Rabin {
+class DemoTest extends FlatSpec with ShouldMatchers with General with RSA with Rabin with ElGamal {
   "1. gcd(1, 192)" should "= 1" in {
     gcd(1, 192) should be(1)
   }
@@ -117,5 +118,14 @@ class DemoTest extends FlatSpec with ShouldMatchers with General with RSA with R
 
   "20. extendedGcd(1239, 735)" should "= (21, -16, 27)" in {
     extendedGcd(1239, 735) should be(DAB(21, -16, 27))
+  }
+
+  val ElGamalKey1 = ElGamal_GenerateKeyPair(2360)
+
+  "21. ElGamal decryptedA" should "= A after encryption and decryption" in {
+    val m = 128
+    val encryptedMsgA = ElGamal_Encrypt(ElGamalKey1._1, m)
+    val decryptedMsgA = ElGamal_Decrypt(ElGamalKey1._1, ElGamalKey1._2, encryptedMsgA)
+    decryptedMsgA should be(128)
   }
 }

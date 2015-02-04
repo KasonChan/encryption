@@ -6,6 +6,7 @@ in Scala.
 
 *  RSA public-key encryption
 *  Rabin public-key encryption
+*  ElGamal public-key encryption
 
 Assumptions
 -----------

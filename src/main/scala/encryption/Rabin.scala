@@ -28,6 +28,12 @@ trait Rabin extends General {
     (RabinPublicKey(n), RabinPrivateKey(p, q), DAB)
   }
 
+  /**
+   * Encrypt the message with the key with p * 
+   * @param p Integer
+   * @param m String
+   * @return encryptedMsg: String
+   */
   def Rabin_Encrypt(p: Int, m: String): String = {
     val msg = stringToInt(m)
 
@@ -38,6 +44,12 @@ trait Rabin extends General {
     doubleToString(encryptedMsg)
   }
 
+  /**
+   * Decrypt the message with the private key pairs *
+   * @param privateKey RabinPrivateKey
+   * @param dab DAB
+   * @param m String
+   */
   def Rabin_Decrypt(privateKey: RabinPrivateKey, dab: DAB, m: String) = {
     val msg = stringToInt(m)
 
@@ -69,6 +81,11 @@ trait Rabin extends General {
     //    TODO: Add test cases
   }
 
+  /**
+   * Return true if the first half of the message is equal to the second half *
+   * @param m String
+   * @return Boolean
+   */
   def isHalfEqual(m: String): Boolean = {
     val m1 = m.substring(0, (m.length / 2))
     val m2 = m.substring((m.length / 2), m.length)
