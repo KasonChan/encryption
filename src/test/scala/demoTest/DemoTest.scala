@@ -2,15 +2,13 @@ package demoTest
 
 case class token(x: String)
 
-import encryption.ElGamal
-import encryption.{RSA, Rabin, RabinPrivateKey, RabinPublicKey}
 import general.{DAB, General}
 import org.scalatest.{FlatSpec, ShouldMatchers}
 
 /**
  * Created by kasonchan on 1/25/15.
  */
-class DemoTest extends FlatSpec with ShouldMatchers with General with RSA with Rabin with ElGamal {
+class DemoTest extends FlatSpec with ShouldMatchers with General {
   "1. gcd(1, 192)" should "= 1" in {
     gcd(1, 192) should be(1)
   }
@@ -31,7 +29,19 @@ class DemoTest extends FlatSpec with ShouldMatchers with General with RSA with R
     gcd(173, 192) should be(1)
   }
 
-  "6. generatePrimes(175)" should "= List(1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173)" in {
+  "6. extendedGcd(4864, 3458)" should "= (38, 32, -45)" in {
+    extendedGcd(4864, 3458) should be(DAB(38, 32, -45))
+  }
+
+  "7. extendedGcd(65, 40)" should "= (5, -3, 5)" in {
+    extendedGcd(65, 40) should be(DAB(5, -3, 5))
+  }
+
+  "8. extendedGcd(1239, 735)" should "= (21, -16, 27)" in {
+    extendedGcd(1239, 735) should be(DAB(21, -16, 27))
+  }
+
+  "9. generatePrimes(175)" should "= List(1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173)" in {
     generatePrimes(175) should be(List(1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173))
   }
 
@@ -41,91 +51,67 @@ class DemoTest extends FlatSpec with ShouldMatchers with General with RSA with R
   val list3 = (97 to 122).toList
   val list4 = list3.map(i => i.toDouble)
 
-  "7. intToString(list1)" should "= list1" in {
+  "10. intToString(list1)" should "= list1" in {
     intToString(list1) should be("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
   }
 
-  "8. intToString(list2)" should "= list2" in {
+  "11. intToString(list2)" should "= list2" in {
     doubleToString(list2) should be("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
   }
 
-  "9. intToString(list3)" should "= list3" in {
+  "12. intToString(list3)" should "= list3" in {
     intToString(list3) should be("abcdefghijklmnopqrstuvwxyz")
   }
 
-  "10. intToString(list4)" should "= list4" in {
+  "13. intToString(list4)" should "= list4" in {
     doubleToString(list4) should be("abcdefghijklmnopqrstuvwxyz")
   }
-
-  val RSA_Key = RSA_GenerateKeyPair(13)
-  val RSA_Key2 = RSA_GenerateKeyPair(160)
-
-  "11. RSA decryptedB" should "= \"3as\" after encryption and decryption" in {
-    val b = token("3as")
-    val encryptedB = RSA_Encrypt(RSA_Key._1.x, RSA_Key._1.n, b.x)
-    val decryptedB = RSA_Decrypt(RSA_Key._2.x, RSA_Key._2.n, encryptedB)
-    decryptedB should be("3as")
+  
+  "14. mod(0, 1000)" should "= 1000" in {
+    mod(0, 1000) should be(0)
   }
 
-  "12. RSA decryptedC + 7" should "= 12 after encryption and decryption" in {
-    val c = token(5.toString)
-    val encryptedC = RSA_Encrypt(RSA_Key._1.x, RSA_Key._1.n, c.x)
-    val decryptedC = RSA_Decrypt(RSA_Key._2.x, RSA_Key._2.n, encryptedC)
-    decryptedC.toInt + 7 should be(12)
+  "15. mod(-0, 1000)" should "= 1000" in {
+    mod(-0, 1000) should be(0)
   }
 
-  "13. RSA decryptedD + 7" should "= 12 after encryption and decryption" in {
-    val d = token(5.toString)
-    val encryptedD1 = RSA_Encrypt(RSA_Key._1.x, RSA_Key._1.n, d.x)
-    val encryptedD2 = RSA_Encrypt(RSA_Key2._1.x, RSA_Key2._1.n, encryptedD1)
-    val decryptedD1 = RSA_Decrypt(RSA_Key2._2.x, RSA_Key2._2.n, encryptedD2)
-    val decryptedD2 = RSA_Decrypt(RSA_Key._2.x, RSA_Key._2.n, decryptedD1)
-    decryptedD2.toInt + 7 should be(12)
+  "16. mod(-2000, 2000)" should "= 0" in {
+    mod(-2000, 2000) should be(0)
   }
 
-  "14. RSA decryptedE " should
-    "= ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 after encryption and decryption" in {
-    val d = token("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890")
-    val encryptedE1 = RSA_Encrypt(RSA_Key._1.x, RSA_Key._1.n, d.x)
-    val encryptedE2 = RSA_Encrypt(RSA_Key2._1.x, RSA_Key2._1.n, encryptedE1)
-    val decryptedE1 = RSA_Decrypt(RSA_Key2._2.x, RSA_Key2._2.n, encryptedE2)
-    val decryptedE2 = RSA_Decrypt(RSA_Key._2.x, RSA_Key._2.n, decryptedE1)
-    decryptedE2 should be("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890")
+  "17. mod(2000, 2000)" should "= 0" in {
+    mod(2000, 2000) should be(0)
+  }
+  
+  "18. mod(-5, 1000)" should "= 995" in {
+    mod(-5, 1000) should be(995)
   }
 
-  "15. Rabin_GenerateKeyPair(12)" should "= (publicKey(77), privateKey(7, 11), DAB(1, -3, 2)" in {
-    Rabin_GenerateKeyPair(12) should
-      be((RabinPublicKey(77), RabinPrivateKey(7, 11), DAB(1, -3, 2)))
+  "19. mod(5, 1000)" should "= 5" in {
+    mod(5, 1000) should be(5)
   }
 
-  "16. Rabin_GenerateKeyPair(5925)" should "= (publicKey(34963469), privateKey(5903, 5923), DAB(1, 2073, -2066)" in {
-    Rabin_GenerateKeyPair(5925) should
-      be((RabinPublicKey(34963469), RabinPrivateKey(5903, 5923), DAB(1, 2073, -2066)))
+  "20. mod(-4321, 1234)" should "= 615" in {
+    mod(-4321, 1234) should be(615)
   }
 
-  "17. Rabin_GenerateKeyPair(7060)" should "= (publicKey(49702451), privateKey(7043, 7057), DAB(1, 504, -503))" in {
-    Rabin_GenerateKeyPair(7060) should
-      be((RabinPublicKey(49702451), RabinPrivateKey(7043, 7057), DAB(1, 504, -503)))
+  "21. mod(4321, 1234)" should "= 619" in {
+    mod(4321, 1234) should be(619)
   }
 
-  "18. extendedGcd(4864, 3458)" should "= (38, 32, -45)" in {
-    extendedGcd(4864, 3458) should be(DAB(38, 32, -45))
+  "22. mod(2468, 1357)" should "= 1111" in {
+    mod(2468, 1357) should be(1111)
   }
 
-  "19. extendedGcd(65, 40)" should "= (5, -3, 5)" in {
-    extendedGcd(65, 40) should be(DAB(5, -3, 5))
+  "23. mod(-2468, 1357)" should "= 246" in {
+    mod(-2468, 1357) should be(246)
+  }
+  
+  "24. mod(2468, -1357)" should "= -246" in {
+    mod(2468, -1357) should be(-246)
   }
 
-  "20. extendedGcd(1239, 735)" should "= (21, -16, 27)" in {
-    extendedGcd(1239, 735) should be(DAB(21, -16, 27))
-  }
-
-  val ElGamalKey1 = ElGamal_GenerateKeyPair(2360)
-
-  "21. ElGamal decryptedA" should "= A after encryption and decryption" in {
-    val m = 128
-    val encryptedMsgA = ElGamal_Encrypt(ElGamalKey1._1, m)
-    val decryptedMsgA = ElGamal_Decrypt(ElGamalKey1._1, ElGamalKey1._2, encryptedMsgA)
-    decryptedMsgA should be(128)
+  "25. mod(-2468, -1357)" should "= -1111" in {
+    mod(-2468, -1357) should be(-1111)
   }
 }

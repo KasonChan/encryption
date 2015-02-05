@@ -39,9 +39,10 @@ trait Rabin extends General {
 
     val doubleMsg = msg.map(m => m.toBinaryString.concat(m.toBinaryString))
 
-    val encryptedMsg = doubleMsg.map(m => Math.pow(Integer.parseInt(m, 2), 2) % p)
+    //    val encryptedMsg = doubleMsg.map(m => Math.pow(Integer.parseInt(m, 2), 2) % p)
+    val encryptedMsg = doubleMsg.map(m => mod(Math.pow(Integer.parseInt(m, 2), 2).toInt, p))
 
-    doubleToString(encryptedMsg)
+    intToString(encryptedMsg)
   }
 
   /**
@@ -57,8 +58,8 @@ trait Rabin extends General {
     val q = privateKey.q
     val n = p * q
 
-    val r = msg.map(m => (Math.pow(m, 2) % p))
-    val s = msg.map(m => (Math.pow(m, 2) % q))
+    val r = msg.map(m => mod(Math.pow(m, 2).toInt, p))
+    val s = msg.map(m => mod(Math.pow(m, 2).toInt, q))
 
     val xaps = s.map(s => dab.a * p * s)
     val xbqr = r.map(r => dab.b * q * r)
@@ -71,12 +72,12 @@ trait Rabin extends General {
     val y = ys.map(y => mod(y.toInt, n))
     val nx = x.map(x => mod(-x.toInt, n))
     val ny = y.map(y => mod(-y.toInt, n))
+    //    println(x + " " + nx + " " + y + " " + ny)
 
     val m1 = x.map(x => x.toBinaryString)
     val m2 = nx.map(nx => List.fill(6 - nx.toBinaryString.length)("0").mkString + nx.toBinaryString)
     val m3 = y.map(y => y.toBinaryString)
     val m4 = ny.map(ny => ny.toBinaryString)
-
     //    println(m1 + " " + m2 + " " + m3 + " " + m4)
     //    TODO: Add test cases
   }
@@ -90,10 +91,7 @@ trait Rabin extends General {
     val m1 = m.substring(0, (m.length / 2))
     val m2 = m.substring((m.length / 2), m.length)
 
-    if (m1 == m2)
-      true
-    else
-      false
+    if (m1 == m2) true
+    else false
   }
-
 }

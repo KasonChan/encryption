@@ -57,7 +57,8 @@ trait General {
    */
   def multiplesFilter(x: Int, n: Int, list: List[Int]): List[Int] = {
     if (x < Math.sqrt(n).ceil)
-      multiplesFilter(x + 1, n, list.filterNot(l => (l != list(x)) && (l % list(x) == 0)))
+      multiplesFilter(x + 1, n,
+        list.filterNot(l => (l != list(x)) && (l % list(x) == 0)))
     else list
   }
 
@@ -115,7 +116,11 @@ trait General {
   def mod(n: Int, m: Int): Int = {
     if (n < 0) {
       (m - (Math.abs(n) % m)) % m
-    } else {
+    }
+    else if (m < 0) {
+      (m - (-n % m)) % m
+    }
+    else {
       n % m
     }
   }

@@ -5,7 +5,7 @@ This is a repo contains the following encryption algorithms. They are written
 in Scala.
 
 *  RSA public-key encryption
-*  Rabin public-key encryption
+*  Rabin public-key encryption (Under Construction)
 *  ElGamal public-key encryption
 
 Assumptions
@@ -23,7 +23,8 @@ Follow these steps to run the code:
 
 1.  `cd` into the _this_ directory.
 2.  Enter `sbt run` to execute `Demo`.
-3.  Enter `sbt test` to execute `DemoTest`.
+3.  Enter `sbt test` to execute all the test cases in `demoTest`.
+4.  Enter `sbt \"test-only\" demoTest.classname` to execute the test cases in the specified class.
 
 References
 ----------

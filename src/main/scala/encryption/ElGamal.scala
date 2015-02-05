@@ -25,7 +25,7 @@ trait ElGamal extends General {
     val a = 2
 
     val alpha = primes.init.last
-  
+
     val aa = BigInt(alpha).pow(a) % p
 
     (ElGamalPublicKey(p, alpha, aa), ElGamalPrivateKey(a))
@@ -42,10 +42,10 @@ trait ElGamal extends General {
     val alpha = publicKey.alpha
     val aa = publicKey.aa
     val k = p / 2
-    
+
     val t = alpha.pow(k.toInt)
     val o = m * (aa.pow(k.toInt) % p)
-    
+
     ElGamalEncryptedMsg(t, o)
   }
 
@@ -56,16 +56,17 @@ trait ElGamal extends General {
    * @param c Encrypted message
    * @return Decrypted message: Int
    */
-  def ElGamal_Decrypt(publicKey: ElGamalPublicKey, privateKey: ElGamalPrivateKey, c: ElGamalEncryptedMsg): Int = {
+  def ElGamal_Decrypt(publicKey: ElGamalPublicKey, privateKey: ElGamalPrivateKey,
+                      c: ElGamalEncryptedMsg): Int = {
     val p = publicKey.p
     val alpha = publicKey.alpha
     val a = privateKey.a
     val aa = publicKey.aa
     val k = p / 2
-    
+
     val t = c.t.pow((p - 1 - a).toInt) % p
     val m = t * (c.o % p)
-    
+
     m.toInt
   }
 }
