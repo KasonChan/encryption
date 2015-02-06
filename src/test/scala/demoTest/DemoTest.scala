@@ -66,7 +66,7 @@ class DemoTest extends FlatSpec with ShouldMatchers with General {
   "13. intToString(list4)" should "= list4" in {
     doubleToString(list4) should be("abcdefghijklmnopqrstuvwxyz")
   }
-  
+
   "14. mod(0, 1000)" should "= 1000" in {
     mod(0, 1000) should be(0)
   }
@@ -82,7 +82,7 @@ class DemoTest extends FlatSpec with ShouldMatchers with General {
   "17. mod(2000, 2000)" should "= 0" in {
     mod(2000, 2000) should be(0)
   }
-  
+
   "18. mod(-5, 1000)" should "= 995" in {
     mod(-5, 1000) should be(995)
   }
@@ -106,12 +106,50 @@ class DemoTest extends FlatSpec with ShouldMatchers with General {
   "23. mod(-2468, 1357)" should "= 246" in {
     mod(-2468, 1357) should be(246)
   }
-  
+
   "24. mod(2468, -1357)" should "= -246" in {
     mod(2468, -1357) should be(-246)
   }
 
   "25. mod(-2468, -1357)" should "= -1111" in {
     mod(-2468, -1357) should be(-1111)
+  }
+
+  "26. extendedGcd(540, 168)" should "= (12, 5, -16)" in {
+    extendedGcd(540, 168) should be(DAB(12, 5, -16))
+  }
+
+  "27. residues(7)" should "= Seq(0,1,2,3,4,5,6)" in {
+    residues(7) should be(Seq(0, 1, 2, 3, 4, 5, 6))
+  }
+
+  "28. congruence(7, 0, 21)" should "= Seq(-21,-14,-7,0,7,14,21)" in {
+    congruence(7, 0, 21) should be(Seq(-21, -14, -7, 0, 7, 14, 21))
+  }
+
+  "29. congruence(7, 3, 21)" should "= Seq(-18,-11,-4,3,10,17)" in {
+    congruence(7, 3, 21) should be(Seq(-18, -11, -4, 3, 10, 17))
+  }
+
+  "30. residueClass(7, 21)" should "= Seq(Seq(-21, -14, -7, 0, 7, 14, 21), " +
+    "Seq(-20, -13, -6, 1, 8, 15), Seq(-19, -12, -5, 2, 9, 16)," +
+    "Seq(-18, -11, -4, 3, 10, 17), Seq(-17, -10, -3, 4, 11, 18)," +
+    "Seq(-16, -9, -2, 5, 12, 19), Seq(-15, -8, -1, 6, 13, 20))" in {
+    residueClass(7, 21) should be(Seq(Seq(-21, -14, -7, 0, 7, 14, 21),
+      Seq(-20, -13, -6, 1, 8, 15), Seq(-19, -12, -5, 2, 9, 16),
+      Seq(-18, -11, -4, 3, 10, 17), Seq(-17, -10, -3, 4, 11, 18),
+      Seq(-16, -9, -2, 5, 12, 19), Seq(-15, -8, -1, 6, 13, 20)))
+  }
+
+  "31. multiplicativeInverse(6)" should "= Some(Seq(1,5))" in {
+    multiplicativeInverse(6) should be(Some(Seq(1, 5)))
+  }
+
+  "32. multiplicativeInverse(10)" should "= Seq(1,3,7,9)" in {
+    multiplicativeInverse(10) should be(Some(Seq(1, 3, 7, 9)))
+  }
+
+  "33. multiplicativeInverse(0)" should "= None" in {
+    multiplicativeInverse(0) should be(None)
   }
 }
