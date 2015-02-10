@@ -145,11 +145,23 @@ class DemoTest extends FlatSpec with ShouldMatchers with General {
     multiplicativeInverse(6) should be(Some(Seq(1, 5)))
   }
 
-  "32. multiplicativeInverse(10)" should "= Seq(1,3,7,9)" in {
+  "32. multiplicativeInverse(10)" should "= Some(Seq(1,3,7,9))" in {
     multiplicativeInverse(10) should be(Some(Seq(1, 3, 7, 9)))
   }
 
   "33. multiplicativeInverse(0)" should "= None" in {
     multiplicativeInverse(0) should be(None)
+  }
+
+  "34. multiplicativeInverse(192)" should "= Some(Seq(1, 5, 7, 11, 13, 17, " +
+    "19, 23, 25, 29, 31, 35, 37, 41, 43, 47, 49, 53, 55, 59, 61, 65, 67, 71, " +
+    "73, 77, 79, 83, 85, 89, 91, 95, 97, 101, 103, 107, 109, 113, 115, 119, " +
+    "121, 125, 127, 131, 133, 137, 139, 143, 145, 149, 151, 155, 157, 161, " +
+    "163, 167, 169, 173, 175, 179, 181, 185, 187, 191))" in {
+    multiplicativeInverse(192) should be(Some(Seq(1, 5, 7, 11, 13, 17, 19,
+      23, 25, 29, 31, 35, 37, 41, 43, 47, 49, 53, 55, 59, 61, 65, 67, 71, 73,
+      77, 79, 83, 85, 89, 91, 95, 97, 101, 103, 107, 109, 113, 115, 119, 121,
+      125, 127, 131, 133, 137, 139, 143, 145, 149, 151, 155, 157, 161, 163,
+      167, 169, 173, 175, 179, 181, 185, 187, 191)))
   }
 }

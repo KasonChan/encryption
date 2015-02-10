@@ -8,8 +8,8 @@ import org.scalatest.{FlatSpec, ShouldMatchers}
  * Created by kasonchan on 2/5/15.
  */
 class DemoTestRSA extends FlatSpec with ShouldMatchers with General with RSA {
-  val RSA_Key = RSA_GenerateKeyPair(13)
-  val RSA_Key2 = RSA_GenerateKeyPair(160)
+  val RSA_Key = RSA_GenerateKeyPair(80)
+  val RSA_Key2 = RSA_GenerateKeyPair(200)
 
   "RSA1. RSA decryptedB" should "= \"3as\" after encryption and " + "decryption" in {
     val b = token("3as")
